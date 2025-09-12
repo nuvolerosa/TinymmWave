@@ -26,10 +26,10 @@ ack = None
 def user_input_thread():
     global mode, running
     while running:
-        cmd = input("Enter 't' for training, 'i' for inference, 'q' to quit: ").lower()
+        cmd = input("Enter 'p' for person, 'o' for object, 'q' to quit: ").lower()
         if cmd in ['t', 'i']:
             mode = cmd
-            print(f"Switched mode to {'Training' if mode=='t' else 'Inference'}")
+            print(f"Switched mode to {'training on person' if mode=='p' else 'training on object'}")
         elif cmd == 'q':
             running = False
             break
@@ -43,14 +43,14 @@ threading.Thread(target=user_input_thread, daemon=True).start()
 try:
     while running:
         if mode != 0:
-            char_to_send = b'3' if mode == 't' else b'4'
+            char_to_send = b'1' if mode == 't' else b'2'
             ser.write(char_to_send)
             ack = ser.read(3)
             if ack == b'ACK':
                 print(f"Received character: {char_to_send}")
                 ack = None
                 mode = 0
-            time.sleep(0.01)  # avoid busy loop
+            time.sleep(0.001)  # avoid busy loop
 
 except KeyboardInterrupt:
     print("\nStopped by user.")

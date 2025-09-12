@@ -127,20 +127,13 @@ int main(void) {
     endi = HAL_GetTick();
 
     uint8_t button0 = BSP_PB_GetState(BUTTON_KEY) == GPIO_PIN_SET;
-    uint8_t button1 = !HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);
-    uint8_t button2 = !HAL_GPIO_ReadPin(BUTTON2_GPIO_Port, BUTTON2_Pin);
 
     char s[1];
     s[0] = 'c';
-    recieveChar(s);
-    if (s[0] == '3')
-      t_mode = 1;
-    if (s[0] == '4')
-      t_mode = 0;
+    // recieveChar(s);
     if (t_mode) {
-
-      //if ((button2 || button1 || s[0] == '1' || s[0] == '2')) {
-      if ((button0 || s[0] == '1' || s[0] == '2')) {
+    // triggering the training
+      if (button0) {
 		// Count down before entering training
 		for (int i = 5; i > 0; i--) {
 			sprintf(showbuf, "Starting in");
@@ -157,17 +150,16 @@ int main(void) {
 			displaystring(showbuf, 273, 50);
 			HAL_Delay(1000);        // wait 1 second
 		}
-		drawBlackBackground(273, 481, 1, 273);
+		drawBlackBackground(270, 481, 1, 273);
+		uint8_t button0 = BSP_PB_GetState(BUTTON_KEY) == GPIO_PIN_SET;
 
 
     	// this part of the code decide on what class to train
         int label = 0;
-        //if (button2 || s[0] == '1') {
-        if (button0 || s[0] == '1') {
+        if (s[0] == '1' || button0 == 1) {
           sprintf(showbuf, "Train cls 1");
           label = 1;
-        //} else {
-        } else if (!button0) {
+        } else if (s[0] == '2' || button0 == 0) {
           sprintf(showbuf, "Train cls 0");
           label = 0; // this is just a redundancy
         }
@@ -206,7 +198,9 @@ int main(void) {
         displaystring(showbuf, 273, 10);
         detectResponse(answer_right, end - start, t_mode, p, label);
       }
-    } else {
+      drawBlackBackground(270, 481, 1, 273);
+    }
+    else {
 
       start = HAL_GetTick();
       invoke_new_weights_givenimg(out_int);

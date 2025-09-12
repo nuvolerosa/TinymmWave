@@ -100,7 +100,7 @@ int main(void) {
   signed char *input = getInput();
 
   RGBbuf = (uint16_t *)&input[128 * 128 * 4];
-  int t_mode = 1; // hardcoded to 0, was 0 before
+  int t_mode = 0; // hardcoded to 0, was 0 before
   while (1) {
     starti = HAL_GetTick();
     ReadCapture();
@@ -127,9 +127,6 @@ int main(void) {
     endi = HAL_GetTick();
 
     uint8_t button0;
-    // Not using these for now
-    // uint8_t button1 = !HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);
-    // uint8_t button2 = !HAL_GPIO_ReadPin(BUTTON2_GPIO_Port, BUTTON2_Pin);
 
     char s[1];
     s[0] = 'c';
@@ -138,7 +135,7 @@ int main(void) {
       t_mode = 1;
     if (s[0] == '4')
       t_mode = 0;
-    if (t_mode) {
+    if (t_mode == 1) {
 
     	drawBlackBackground(270, 481, 1, 273);
 
@@ -207,7 +204,7 @@ int main(void) {
 		detectResponse(answer_right, end - start, t_mode, p, label);
 		drawBlackBackground(270, 481, 1, 273);
 
-    } else {
+    } else if(t_mode == 0){
 
       start = HAL_GetTick();
       invoke_new_weights_givenimg(out_int);
