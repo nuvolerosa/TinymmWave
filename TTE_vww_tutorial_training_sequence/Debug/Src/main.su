@@ -1,0 +1,10 @@
+profile.h:28:6:void printLog(const char*)	16	static
+profile.h:49:6:void recieveChar(char*)	16	static
+main.cpp:63:6:void train(int)	40	static
+main.cpp:75:6:void invoke_new_weights_givenimg(signed char*)	24	static
+main.cpp:83:6:void SaveFrameToFlash(uint32_t, uint16_t*, uint32_t)	56	static
+main.cpp:120:5:int main()	376	static
+main.cpp:290:6:void SystemClock_Config()	80	static
+main.cpp:332:13:void Error_Handler()	8	static
+main.cpp:339:13:void CPU_CACHE_Enable()	24	static,ignoring_inline_asm
+main.cpp:346:13:void MX_GPIO_Init()	72	static

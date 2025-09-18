@@ -103,6 +103,7 @@ int main(void) {
   int t_mode = 0; // hardcoded to 0, was 0 before
   while (1) {
     starti = HAL_GetTick();
+    HAL_Delay(10);
     ReadCapture();
     StartCapture();
     DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
@@ -204,23 +205,6 @@ int main(void) {
 		detectResponse(answer_right, end - start, t_mode, p, label);
 		drawBlackBackground(270, 481, 1, 273);
 
-    } else if(t_mode == 0){
-
-      start = HAL_GetTick();
-      invoke_new_weights_givenimg(out_int);
-      int person = 0;
-      if (out_int[0] > out_int[1]) {
-        person = 1;
-      } else {
-        person = 0;
-      }
-      end = HAL_GetTick();
-      sprintf(showbuf, " Inference ");
-      displaystring(showbuf, 273, 10);
-      detectResponse(person, end - starti, t_mode, 0, 0);
-	  for (int i = 4; i > 0; i--) { // wait 1 second
-			HAL_Delay(1000);
-	  }
     }
   }
 
